@@ -1,0 +1,488 @@
+/*
+Student record storage program done in Java. User can enter in a new student record, modify and delete existing student records, sort existing student records by name or homeroom teacher, show all student records, 
+search existing student records, save or load student records to/from an external file and exit the program. 
+Demonstration of:
+- Using classes and methods
+- Using 2 Dimensional Arrays
+- Using selection sort to sort data by different variables
+- Using sequential/linear search to search data
+- Using classes to create methods to export/import data from an external file
+- Allowing a user to modify and delete information
+
+*/
+
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+public class StudentRecords {
+
+
+	//Variables for input.
+	static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+	static String line;
+
+	//Array counters.
+	static int x = 0;
+	static int j = 0;
+	static int i = 0;
+	static String s;
+
+	public static void main(String[] args) throws IOException {
+
+		//Main menu input storage.
+		int choice1;
+
+		//Student record storage
+		String students[][] = new String[1000][8];
+
+		do {
+
+			//Prints the main menu of the program.
+			System.out.println("\nStudent Records Database\n \nMain Menu\n");
+			System.out.println("\n1. Enter a new student record");
+			System.out.println("2. Modify a student record");
+			System.out.println("3. Delete a student record");
+			System.out.println("4. Sort the student records");
+			System.out.println("5. Show all the Student Records");
+			System.out.println("6. Student Record Search");
+			System.out.println("7. Save data");
+			System.out.println("8. Load data");
+			System.out.println("9.Exit program");
+
+
+			//Asks user to input the number of the submenu they would like to enter.
+			line = in.readLine();
+
+			//Converts the user's input from a string to an integer.
+			choice1 = Integer.valueOf(line).intValue();
+
+
+			//Reads the user's input, and executes one of the methods accordingly.
+			if(choice1 == 1) {
+				NewRecord(students);
+			}
+
+			if(choice1 == 2) {
+				ModifyRecord(students);
+			}
+
+			if(choice1 == 3) {
+				DeleteRecord(students);
+			}
+
+			if(choice1 == 4) {
+				SortRecord(students);
+			}
+
+			if(choice1 == 5) {
+				ShowRecord(students);
+			}
+
+			if(choice1 == 6) {
+				SearchRecord(students);
+			}
+
+			if(choice1 == 7) {
+				SaveRecord(students);
+			}
+
+			if(choice1 == 8) {
+				LoadRecord(students);
+			}
+		}
+
+		while(choice1 != 9);
+
+
+		//Prints exit message and exits program.
+		if(choice1 == 9) {
+			System.out.println("Exiting program!");
+		}
+	}
+
+	public static void NewRecord(String students[][]) throws IOException {
+
+
+		//Initializes counter variables.
+		x = 0;
+		i = 0;
+
+		try {
+
+			//Asks the user the number of student records they would like to input.
+			System.out.println("\nHow many Student Records would you like to input?");
+
+			//Reads the users input and stores it in an integer.
+			line = in.readLine();
+			x = Integer.valueOf(line).intValue();
+
+			System.out.println("\nInput all new data below:");
+
+			//Creates a loop based on the number of student records the user wants to input.
+			for(i = 0; i<=(x - 1); i++) {
+
+				//Asks the user to input all the information to be stored in the student record.
+				System.out.println("\nEnter the full name of the student:");
+				students[i][0] = in.readLine();
+				System.out.println("Enter the grade of the student:");
+				students[i][1] = in.readLine();
+				System.out.println("Enter the homeroom class of the student:");
+				students[i][2] = in.readLine();
+				System.out.println("Enter the homeroom teacher of the student:");
+				students[i][3] = in.readLine();
+				System.out.println("Enter the student's average in their homeroom class:");
+				students[i][4] = in.readLine();
+				System.out.println("Enter the student's student number:");
+				students[i][5] = in.readLine();
+				System.out.println("Enter the number of lates the student has:");
+				students[i][6] = in.readLine();
+				System.out.println("Enter the number of absences the student has:");
+				students[i][7] = in.readLine();
+
+			}
+		}
+
+		catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		
+
+		//Prints confirmation message after all the student records are inputed.
+		System.out.println("\nData input complete!");
+
+		return;
+	}
+
+	public static void ModifyRecord(String students[][]) throws IOException {
+
+		try {
+
+			//Initializes counter variables.
+			j = 0;
+			int flag = 0;
+			boolean found = false;
+
+			//Asks the user for the name of the student record they want to modify.
+			System.out.println("What is the name of the student whose record you would like to modify?");
+			line = in.readLine();
+
+			//Searches all student records for the requested name by comparing it to them.
+			for(j = 0; j<i; j++) {
+				if(line.compareTo(students[j][0]) == 0) {
+					flag = j;
+					found = true;
+				}				
+			}
+	
+
+			//Prints an error message if the requested student record is not found.
+			if(found == false) {
+				System.out.println("Error. Student Record not found");
+			}
+
+
+			//Asks user to input the modified student record if the student record is found.
+			else {
+					System.out.println("Enter the updated full name:");
+					students[flag][0] = in.readLine();
+					System.out.println("Enter the updated grade of the student:");
+					students[flag][1] = in.readLine();
+					System.out.println("Enter the updated homeroom class of the student:");
+					students[flag][2] = in.readLine();
+					System.out.println("Enter the updated homeroom teacher of the student:");
+					students[flag][3] = in.readLine();
+					System.out.println("Enter the student's updated average in their homeroom class:");
+					students[flag][4] = in.readLine();
+					System.out.println("Enter the student's updated student number:");
+					students[flag][5] = in.readLine();
+					System.out.println("Enter the student's updated number of lates:");
+					students[flag][6] = in.readLine();
+					System.out.println("Enter the student's updated number of absences:");
+					students[flag][7] = in.readLine();
+					
+			}
+		}
+
+		catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return;
+	}
+
+	public static void DeleteRecord(String students[][]) throws IOException {
+
+		//Initializes counter variables.
+		boolean found = false; 
+		int flag = 0;
+
+		try {
+
+			//Asks user to input the name of the student record they would like to delete.
+			System.out.println("What is the name of the student whose record you would like to delete?");
+			line = in.readLine();			
+
+			for(j = 0; j<i; j++) {
+
+				//Searches for a student record matching the user's input.
+				if(line.compareTo(students[j][0]) == 0) {
+					flag = i;
+					found = true;
+				}
+			}
+
+			if(found == false) {
+
+				//Prints an error message if the student record is not found.
+				System.out.println("Error. Student record not found.");
+			}
+	
+			else {
+
+				//Deletes the student record that is found.
+				//The modified section is below, the 'i++' below used to be 'j++'
+				for(j = flag; j<=(i - 2); i++) {
+					students[j][0] = students[j + 1][0];
+					students[j][1] = students[j + 1][1];
+					students[j][2] = students[j + 1][2]; 
+					students[j][3] = students[j + 1][3];
+					students[j][4] = students[j + 1][4];
+					students[j][5] = students[j + 1][5];
+					students[j][6] = students[j + 1][6];
+					students[j][7] = students[j + 1][7];
+				}
+	
+				//Prints a confirmation message after the student record is deleted.
+				System.out.println("Student Record deleted.");
+				i = i - 1;
+			}
+		}
+
+		catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+
+		
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return;
+	}
+
+	public static void SortRecord(String students[][]) throws IOException {
+
+		//Initializes counter and temporary storage variables.
+		int smallest = 0;
+		String temp;
+		int k = 0;
+		int choice2;
+
+		try {
+
+			//Asks the user how they would like to sort the student records.
+			System.out.println("How would you like to sort the student records?");
+			System.out.println("1. By Name");
+			System.out.println("2. By Homeroom Teacher");
+
+			//Reads the user's input and stores it in an integer.
+			line = in.readLine();
+			choice2 = Integer.valueOf(line).intValue();
+
+			if(choice2 == 1) {
+
+				//Rearranges the student records by name as requested by the user.
+				for(j = 0; j<i; j++) {
+					smallest = i - 1;
+	
+					for(k = j; k<i; k++) {
+						if(students[k][0].compareTo(students[smallest][0]) < 0) {
+							smallest = k;
+						}
+					}
+				}
+
+				temp = students[k][0];
+				students[k][0] = students[smallest][0];
+				students[smallest][0] = temp;
+	
+				//Prints a confirmation message after the student records have been sorted.
+				System.out.println("The Student Records have been sorted by name!");
+
+				//Prints the sorted student records.
+				for(j = 0; j<i; j++) {
+					System.out.println("\nName: " + students[j][0]);
+					System.out.println("Grade: " + students[j][1]);
+					System.out.println("Homeroom class: " + students[j][2]);
+					System.out.println("Homeroom teacher: " + students[j][3]);
+					System.out.println("Average: " + students[j][4]);
+					System.out.println("Student number: " + students[j][5]);
+					System.out.println("No. of lates: " + students[j][6]);
+					System.out.println("No. of absences: " + students[j][7]);
+				}
+			}
+
+			if(choice2 == 2) {
+
+				//Rearranges the student records by teacher as requested by the user.
+				for(j = 0; j<i; j++) {
+					smallest = i - 1;
+
+					for(k = j; k<i; k++) {
+						if(students[k][3].compareTo(students[smallest][3]) < 0) {
+							smallest = k;
+						}
+					}
+				}
+
+				temp = students[k][3];
+				students[k][3] = students[smallest][3];
+				students[smallest][3] = temp;
+
+				//Prints a confirmation message after the student records have been sorted.
+				System.out.println("The Student Records have been sorted by Homeroom Teacher!");
+
+				//Prints the sorted student records.
+				for(j = 0; j<i; j++) {
+					System.out.println("\nHomeroom teacher: " + students[j][3]);
+					System.out.println("Name: " + students[j][0]);
+					System.out.println("Grade: " + students[j][1]);
+					System.out.println("Homeroom class: " + students[j][2]);
+					System.out.println("Average: " + students[j][4]);
+					System.out.println("Student number: " + students[j][5]);
+					System.out.println("No. of lates: " + students[j][6]);
+					System.out.println("No. of absences: " + students[j][7]);
+				}
+			}
+		}
+
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return;
+	}
+
+	public static void ShowRecord(String students[][]) throws IOException {
+
+		//Prints all the student records.
+		for(j = 0; j<i; j++) {
+			System.out.println("\nName: " + students[j][0]);
+			System.out.println("Grade: " + students[j][1]);
+			System.out.println("Homeroom class: " + students[j][2]);
+			System.out.println("Homeroom teacher: " + students[j][3]);
+			System.out.println("Average: " + students[j][4]);
+			System.out.println("Student number: " + students[j][5]);
+			System.out.println("No. of lates: " + students[j][6]);
+			System.out.println("No. of absences: " + students[j][7]);
+		}
+
+		return;
+	}
+
+	public static void SearchRecord(String students[][]) throws IOException {
+
+		//Asks the user to input the name of the student they would like to search for.
+		System.out.println("What is the student's name?");
+
+		//Reads the user's input and stores it in a string.
+		line = in.readLine();
+
+		//Initializes the boolean variable.
+		boolean found = false;
+
+		for(j = 0; j<i; j++) {
+
+			//If the student record is found, the boolean is set to true.
+			if(line.compareTo(students[j][0]) == 0) {
+				found = true;
+				
+			}
+
+			//If the student record is not found, an error message is printed, and researches.
+			if(found == false) {
+				System.out.println("Error. Student Record not found. Retrying..");
+			}
+
+			//Prints the student record if it has been found.
+			else {
+				System.out.println("\nStudent Record found!");
+				System.out.println("Name: " + students[j][0]);
+				System.out.println("Grade: " + students[j][1]);
+				System.out.println("Homeroom class: " + students[j][2]);
+				System.out.println("Homeroom teacher: " + students[j][3]);
+				System.out.println("Average: " + students[j][4]);
+				System.out.println("Student number: " + students[j][5]);
+				System.out.println("No. of lates: " + students[j][6]);
+				System.out.println("No. of absences: " + students[j][7]);
+				break;
+			}
+
+			
+			//If the student record is not found after retrying, an error message is printed.
+			if(j==(i - 1)) {
+				System.out.println("Error. Student Record doesn't exist.");
+			}
+		}
+
+		return;
+	}
+
+	public static void SaveRecord(String students[][]) throws IOException {
+
+		//Variable to output student records to the requested file.
+		PrintWriter output;
+		output = new PrintWriter(new FileWriter("studentrecords.txt"));
+
+		//Outputs the student records to the file.
+		output.println(i);
+		System.out.println("Saving Student Records...");
+
+		for(j = 0; j<i; j++) {
+			output.println(students[j][0]);
+			output.println(students[j][1]);
+			output.println(students[j][2]);
+			output.println(students[j][3]);
+			output.println(students[j][4]);
+			output.println(students[j][5]);
+			output.println(students[j][6]);
+			output.println(students[j][7]);
+		}
+
+		//Prints a confirmation message once the student records have been outputed to the file.
+		output.close();
+		System.out.println("Student Records saved!");
+		return;
+	}
+
+	public static void LoadRecord(String students[][]) throws IOException {
+
+		//Variable to input student records from the desired file.
+		BufferedReader input;
+		input = new BufferedReader(new FileReader("studentrecords.txt"));
+
+		//Inputs the student records to the program.
+		i = Integer.valueOf(input.readLine()).intValue();
+		System.out.println("Loading Student Records...");
+
+		for(j = 0; j<i; j++) {
+			students[j][0] = input.readLine();
+			students[j][1] = input.readLine();
+			students[j][2] = input.readLine();
+			students[j][3] = input.readLine();
+			students[j][4] = input.readLine();
+			students[j][5] = input.readLine();
+			students[j][6] = input.readLine();
+			students[j][7] = input.readLine();
+		}
+
+		//Prints a confirmation message when the student records have been inputted from the file.
+		System.out.println("Student Records loaded!");
+	}
+}
